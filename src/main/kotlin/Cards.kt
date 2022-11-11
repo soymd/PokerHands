@@ -53,12 +53,14 @@ class Cards(private val cards: List<Card>) {
         }
         val pairCount = map.count { it.value == 2 }
         val threeCardCount = map.count { it.value == 3 }
-        if (pairCount == 1) {
-            return PAIR
-        } else if (pairCount == 2) {
-            return TWO_PAIR
+        if (threeCardCount == 1 && pairCount == 1) {
+            return FULL_HOUSE
         } else if (threeCardCount == 1) {
             return THREE_OF_A_KIND
+        } else if (pairCount == 2) {
+            return TWO_PAIR
+        } else if (pairCount == 1) {
+            return PAIR
         }
 
         return NO_HAND
@@ -100,5 +102,6 @@ enum class Hand {
     TWO_PAIR,
     THREE_OF_A_KIND,
     STRAIGHT,
-    FLUSH
+    FLUSH,
+    FULL_HOUSE
 }

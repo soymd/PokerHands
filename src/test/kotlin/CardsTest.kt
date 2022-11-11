@@ -132,4 +132,20 @@ class CardsTest {
         assertThat(actual, equalTo(Hand.FLUSH))
     }
 
+    @Test
+    fun getHand_returnFullHouse_when_同じvalueが2枚かつ3枚() {
+        subject = Cards(
+            listOf(
+                Card(HEART, TWO),
+                Card(SPADE, TWO),
+                Card(SPADE, JACK),
+                Card(CLUB, JACK),
+                Card(HEART, JACK),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.FULL_HOUSE))
+    }
 }
