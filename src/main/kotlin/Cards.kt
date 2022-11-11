@@ -2,45 +2,42 @@ import Hand.*
 
 class Cards(private val cards: List<Card>) {
     fun getHand(): Hand {
-//        val valueList = listOf<Value>(
-//            Value.TWO,
-//            Value.THREE,
-//            Value.FOUR,
-//            Value.FIVE,
-//            Value.SIX,
-//            Value.SEVEN,
-//            Value.EIGHT,
-//            Value.NINE,
-//            Value.TEN,
-//            Value.JACK,
-//            Value.QUEEN,
-//            Value.KING,
-//            Value.ACE
-//        )
-//
-//        val sorted = cards.sortedBy { it.value.ordinal }
-//
-//
-//
-//        val indexList = mutableListOf<Int>()
-//        cards.forEach { card ->
-//            indexList.add(valueList.indexOf(card.value))
-//        }
-//        val itr = indexList.listIterator()
-//        var preIndex = itr.next()
-//        var straightFlag = true
-//        while (itr.hasNext()) {
-//            var cur = itr.next()
-//            if(cur != preIndex + 1){
-//                straightFlag = false
-//                break
-//            }else{
-//                preIndex = cur
-//            }
-//        }
-//        if(straightFlag){
-//            return STRAIGHT
-//        }
+        val valueList = listOf<Value>(
+            Value.TWO,
+            Value.THREE,
+            Value.FOUR,
+            Value.FIVE,
+            Value.SIX,
+            Value.SEVEN,
+            Value.EIGHT,
+            Value.NINE,
+            Value.TEN,
+            Value.JACK,
+            Value.QUEEN,
+            Value.KING,
+            Value.ACE
+        )
+
+        val sorted = cards.sortedBy { it.value.ordinal }
+        val indexList = mutableListOf<Int>()
+        sorted.forEach { card ->
+            indexList.add(valueList.indexOf(card.value))
+        }
+        val itr = indexList.listIterator()
+        var preIndex = itr.next()
+        var straightFlag = true
+        while (itr.hasNext()) {
+            var cur = itr.next()
+            if (cur != preIndex + 1) {
+                straightFlag = false
+                break
+            } else {
+                preIndex = cur
+            }
+        }
+        if (straightFlag) {
+            return STRAIGHT
+        }
 
 
         val map = cards.associate { card ->

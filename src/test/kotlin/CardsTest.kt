@@ -81,20 +81,38 @@ class CardsTest {
         assertThat(actual, equalTo(Hand.THREE_OF_A_KIND))
     }
 
-//    @Test
-//    fun getHand_returnStraight_when_valueが連番() {
-//        subject = Cards(
-//            listOf(
-//                Card(DIAMOND, TEN),
-//                Card(HEART, NINE),
-//                Card(CLUB, QUEEN),
-//                Card(SPADE, JACK),
-//                Card(SPADE, KING),
-//            )
-//        )
-//
-//        val actual = subject.getHand()
-//
-//        assertThat(actual, equalTo(Hand.STRAIGHT))
-//    }
+    @Test
+    fun getHand_returnStraight_when_valueが連番() {
+        subject = Cards(
+            listOf(
+                Card(HEART, NINE),
+                Card(DIAMOND, TEN),
+                Card(SPADE, JACK),
+                Card(CLUB, QUEEN),
+                Card(SPADE, KING),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.STRAIGHT))
+    }
+
+    @Test
+    fun getHand_returnStraight_when_valueが連番_順番はバラバラ() {
+        subject = Cards(
+            listOf(
+                Card(DIAMOND, TEN),
+                Card(HEART, NINE),
+                Card(SPADE, JACK),
+                Card(CLUB, QUEEN),
+                Card(SPADE, KING),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.STRAIGHT))
+    }
+
 }
