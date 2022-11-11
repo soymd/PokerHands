@@ -13,6 +13,15 @@ class Cards(private val cards: List<Card>) {
             return STRAIGHT
         }
 
+        val pairHand = findPairHands(cards)
+        if (pairHand != null) {
+            return pairHand
+        }
+        val maxCard = cards.maxOf { it.value.ordinal }
+        return Hand.values().find { it.ordinal == maxCard } ?: HIGH_CARD_TWO
+    }
+
+    private fun findPairHands(cards: List<Card>): Hand? {
         val map = cards.associate { card ->
             card.value to cards.count { card.value == it.value }
         }
@@ -30,9 +39,7 @@ class Cards(private val cards: List<Card>) {
         } else if (pairCount == 1) {
             return PAIR
         }
-
-        val maxCard = cards.maxOf { it.value.ordinal }
-        return Hand.values().find { it.ordinal == maxCard } ?: HIGH_CARD_TWO
+        return null
     }
 
     private fun isFlush(): Boolean {
