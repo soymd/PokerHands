@@ -2,22 +2,6 @@ import Hand.*
 
 class Cards(private val cards: List<Card>) {
     fun getHand(): Hand {
-        val valueList = listOf<Value>(
-            Value.TWO,
-            Value.THREE,
-            Value.FOUR,
-            Value.FIVE,
-            Value.SIX,
-            Value.SEVEN,
-            Value.EIGHT,
-            Value.NINE,
-            Value.TEN,
-            Value.JACK,
-            Value.QUEEN,
-            Value.KING,
-            Value.ACE
-        )
-
         val suitMap = cards.associate { card ->
             card.suit to cards.count { card.suit == it.suit }
         }
@@ -26,7 +10,7 @@ class Cards(private val cards: List<Card>) {
         val sorted = cards.sortedBy { it.value.ordinal }
         val indexList = mutableListOf<Int>()
         sorted.forEach { card ->
-            indexList.add(valueList.indexOf(card.value))
+            indexList.add(Value.values().indexOf(card.value))
         }
         val itr = indexList.listIterator()
         var preIndex = itr.next()
@@ -67,9 +51,9 @@ class Cards(private val cards: List<Card>) {
             return PAIR
         }
 
-        return NO_HAND
+        val maxCard = cards.maxOf { it.value.ordinal }
+        return Hand.values().find { it.ordinal == maxCard } ?: HIGH_CARD_TWO
     }
-
 }
 
 data class Card(
@@ -101,7 +85,19 @@ enum class Value {
 }
 
 enum class Hand {
-    NO_HAND,
+    HIGH_CARD_TWO,
+    HIGH_CARD_THREE,
+    HIGH_CARD_FOUR,
+    HIGH_CARD_FIVE,
+    HIGH_CARD_SIX,
+    HIGH_CARD_SEVEN,
+    HIGH_CARD_EIGHT,
+    HIGH_CARD_NINE,
+    HIGH_CARD_TEN,
+    HIGH_CARD_JACK,
+    HIGH_CARD_QUEEN,
+    HIGH_CARD_KING,
+    HIGH_CARD_ACE,
     PAIR,
     TWO_PAIR,
     THREE_OF_A_KIND,

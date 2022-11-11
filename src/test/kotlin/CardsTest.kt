@@ -182,4 +182,23 @@ class CardsTest {
 
         assertThat(actual, equalTo(Hand.STRAIGHT_FLUSH))
     }
+
+    @Test
+    fun getHand_returnHighCard_when_役がない場合() {
+        subject = Cards(
+            listOf(
+                Card(HEART, TWO),
+                Card(DIAMOND, ACE),
+                Card(SPADE, FOUR),
+                Card(CLUB, FIVE),
+                Card(HEART, SIX),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.HIGH_CARD_ACE))
+    }
+
+
 }
