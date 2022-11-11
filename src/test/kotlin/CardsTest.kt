@@ -165,4 +165,21 @@ class CardsTest {
 
         assertThat(actual, equalTo(Hand.FOUR_OF_A_KIND))
     }
+
+    @Test
+    fun getHand_returnStraight_Flush_when_suitが全て同じかつvalueが連番() {
+        subject = Cards(
+            listOf(
+                Card(HEART, TWO),
+                Card(HEART, THREE),
+                Card(HEART, FOUR),
+                Card(HEART, FIVE),
+                Card(HEART, SIX),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.STRAIGHT_FLUSH))
+    }
 }

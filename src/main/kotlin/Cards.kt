@@ -22,9 +22,6 @@ class Cards(private val cards: List<Card>) {
             card.suit to cards.count { card.suit == it.suit }
         }
         val suitCount = suitMap.count { suit -> suit.value == 5 }
-        if(suitCount == 1){
-            return FLUSH
-        }
 
         val sorted = cards.sortedBy { it.value.ordinal }
         val indexList = mutableListOf<Int>()
@@ -43,7 +40,11 @@ class Cards(private val cards: List<Card>) {
                 preIndex = cur
             }
         }
-        if (straightFlag) {
+        if (suitCount == 1 && straightFlag) {
+            return STRAIGHT_FLUSH
+        } else if (suitCount == 1) {
+            return FLUSH
+        } else if (straightFlag) {
             return STRAIGHT
         }
 
@@ -108,4 +109,5 @@ enum class Hand {
     FLUSH,
     FULL_HOUSE,
     FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH,
 }
