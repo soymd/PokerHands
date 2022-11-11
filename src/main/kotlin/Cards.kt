@@ -2,36 +2,16 @@ import Hand.*
 
 class Cards(private val cards: List<Card>) {
     fun getHand(): Hand {
-        val suitMap = cards.associate { card ->
-            card.suit to cards.count { card.suit == it.suit }
-        }
-        val suitCount = suitMap.count { suit -> suit.value == 5 }
+        val isFlush = isFlush()
+        val straightFlag = isStraight()
 
-        val sorted = cards.sortedBy { it.value.ordinal }
-        val indexList = mutableListOf<Int>()
-        sorted.forEach { card ->
-            indexList.add(Value.values().indexOf(card.value))
-        }
-        val itr = indexList.listIterator()
-        var preIndex = itr.next()
-        var straightFlag = true
-        while (itr.hasNext()) {
-            var cur = itr.next()
-            if (cur != preIndex + 1) {
-                straightFlag = false
-                break
-            } else {
-                preIndex = cur
-            }
-        }
-        if (suitCount == 1 && straightFlag) {
+        if (isFlush && straightFlag) {
             return STRAIGHT_FLUSH
-        } else if (suitCount == 1) {
+        } else if (isFlush) {
             return FLUSH
         } else if (straightFlag) {
             return STRAIGHT
         }
-
 
         val map = cards.associate { card ->
             card.value to cards.count { card.value == it.value }
@@ -53,6 +33,35 @@ class Cards(private val cards: List<Card>) {
 
         val maxCard = cards.maxOf { it.value.ordinal }
         return Hand.values().find { it.ordinal == maxCard } ?: HIGH_CARD_TWO
+    }
+
+    private fun isFlush(): Boolean {
+        val suitMap = cards.associate { card ->
+            card.suit to cards.count { card.suit == it.suit }
+        }
+        val suitCount = suitMap.count { suit -> suit.value == 5 }
+        return suitCount == 1
+    }
+
+    private fun isStraight(): Boolean {
+        val sorted = cards.sortedBy { it.value.ordinal }
+        val indexList = mutableListOf<Int>()
+        sorted.forEach { card ->
+            indexList.add(Value.values().indexOf(card.value))
+        }
+        val itr = indexList.listIterator()
+        var preIndex = itr.next()
+        var straightFlag = true
+        while (itr.hasNext()) {
+            var cur = itr.next()
+            if (cur != preIndex + 1) {
+                straightFlag = false
+                break
+            } else {
+                preIndex = cur
+            }
+        }
+        return straightFlag
     }
 }
 
