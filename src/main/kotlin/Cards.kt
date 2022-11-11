@@ -18,6 +18,14 @@ class Cards(private val cards: List<Card>) {
             Value.ACE
         )
 
+        val suitMap = cards.associate { card ->
+            card.suit to cards.count { card.suit == it.suit }
+        }
+        val suitCount = suitMap.count { suit -> suit.value == 5 }
+        if(suitCount == 1){
+            return FLUSH
+        }
+
         val sorted = cards.sortedBy { it.value.ordinal }
         val indexList = mutableListOf<Int>()
         sorted.forEach { card ->
@@ -92,4 +100,5 @@ enum class Hand {
     TWO_PAIR,
     THREE_OF_A_KIND,
     STRAIGHT,
+    FLUSH
 }

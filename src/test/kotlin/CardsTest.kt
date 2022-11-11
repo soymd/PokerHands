@@ -65,6 +65,23 @@ class CardsTest {
     }
 
     @Test
+    fun getHand_returnStraight_when_valueが連番_順番はバラバラ() {
+        subject = Cards(
+            listOf(
+                Card(DIAMOND, TEN),
+                Card(HEART, NINE),
+                Card(SPADE, JACK),
+                Card(CLUB, QUEEN),
+                Card(SPADE, KING),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.STRAIGHT))
+    }
+
+    @Test
     fun getHand_returnPair_when_同じvalueが3枚ある場合() {
         subject = Cards(
             listOf(
@@ -99,20 +116,20 @@ class CardsTest {
     }
 
     @Test
-    fun getHand_returnStraight_when_valueが連番_順番はバラバラ() {
+    fun getHand_returnFlush_when_suitが全て同じ() {
         subject = Cards(
             listOf(
-                Card(DIAMOND, TEN),
-                Card(HEART, NINE),
-                Card(SPADE, JACK),
-                Card(CLUB, QUEEN),
-                Card(SPADE, KING),
+                Card(HEART, TWO),
+                Card(HEART, TEN),
+                Card(HEART, JACK),
+                Card(HEART, QUEEN),
+                Card(HEART, KING),
             )
         )
 
         val actual = subject.getHand()
 
-        assertThat(actual, equalTo(Hand.STRAIGHT))
+        assertThat(actual, equalTo(Hand.FLUSH))
     }
 
 }
