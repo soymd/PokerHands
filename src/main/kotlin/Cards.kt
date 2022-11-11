@@ -3,13 +3,13 @@ import Hand.*
 class Cards(private val cards: List<Card>) {
     fun getHand(): Hand {
         val isFlush = isFlush()
-        val straightFlag = isStraight()
+        val isStraight = isStraight()
 
-        if (isFlush && straightFlag) {
+        if (isFlush && isStraight) {
             return STRAIGHT_FLUSH
         } else if (isFlush) {
             return FLUSH
-        } else if (straightFlag) {
+        } else if (isStraight) {
             return STRAIGHT
         }
 
@@ -22,9 +22,7 @@ class Cards(private val cards: List<Card>) {
     }
 
     private fun findPairHands(cards: List<Card>): Hand? {
-        val map = cards.associate { card ->
-            card.value to cards.count { card.value == it.value }
-        }
+        val map = cards.groupingBy { it.value }.eachCount()
         val pairCount = map.count { it.value == 2 }
         val threeCardCount = map.count { it.value == 3 }
         val fourCardCount = map.count { it.value == 4 }
@@ -43,32 +41,20 @@ class Cards(private val cards: List<Card>) {
     }
 
     private fun isFlush(): Boolean {
-        val suitMap = cards.associate { card ->
-            card.suit to cards.count { card.suit == it.suit }
-        }
-        val suitCount = suitMap.count { suit -> suit.value == 5 }
-        return suitCount == 1
+        val count = cards.count { it.suit == cards.first().suit }
+        return count == 5
     }
 
     private fun isStraight(): Boolean {
         val sorted = cards.sortedBy { it.value.ordinal }
-        val indexList = mutableListOf<Int>()
-        sorted.forEach { card ->
-            indexList.add(Value.values().indexOf(card.value))
-        }
-        val itr = indexList.listIterator()
-        var preIndex = itr.next()
-        var straightFlag = true
-        while (itr.hasNext()) {
-            var cur = itr.next()
-            if (cur != preIndex + 1) {
-                straightFlag = false
-                break
-            } else {
-                preIndex = cur
+        var count = sorted.first().value.ordinal
+        for (i in 1..4) {
+            if (count != sorted[i].value.ordinal - 1) {
+                return false
             }
+            count = sorted[i].value.ordinal
         }
-        return straightFlag
+        return true
     }
 }
 
