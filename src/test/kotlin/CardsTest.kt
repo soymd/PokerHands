@@ -148,4 +148,21 @@ class CardsTest {
 
         assertThat(actual, equalTo(Hand.FULL_HOUSE))
     }
+
+    @Test
+    fun getHand_returnFourOfAKind_when_同じvalueが4枚() {
+        subject = Cards(
+            listOf(
+                Card(HEART, TWO),
+                Card(CLUB, TWO),
+                Card(SPADE, TWO),
+                Card(DIAMOND, TWO),
+                Card(HEART, JACK),
+            )
+        )
+
+        val actual = subject.getHand()
+
+        assertThat(actual, equalTo(Hand.FOUR_OF_A_KIND))
+    }
 }
